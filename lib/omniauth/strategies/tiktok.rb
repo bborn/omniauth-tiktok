@@ -62,7 +62,6 @@ module OmniAuth
         super.tap do |params|
           params[:scope] ||= DEFAULT_SCOPE
           params[:response_type] = "code"
-          params.delete(client_id)
           params[:client_key] = options.client_id
         end
       end
