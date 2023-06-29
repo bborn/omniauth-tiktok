@@ -8,14 +8,14 @@ module OmniAuth
       class NoAuthorizationCodeError < StandardError; end
 
       DEFAULT_SCOPE = "user.info.basic,video.list"
-      USER_INFO_URL = "https://open-api.tiktok.com/oauth/userinfo"
+      USER_INFO_URL = "https://open.tiktokapis.com/v2/oauth/userinfo"
 
       option :name, "tiktok"
 
       option :client_options, {
-        site: "https://open-api.tiktok.com",
-        authorize_url: "https://open-api.tiktok.com/platform/oauth/connect",
-        token_url: "https://open-api.tiktok.com/oauth/access_token",
+        site: "https://open.tiktokapis.com/v2/",
+        authorize_url: "https://open.tiktokapis.com/v2/platform/oauth/connect",
+        token_url: "https://open.tiktokapis.com/v2/oauth/token",
         auth_scheme: :basic_auth,
         extract_access_token: proc do |client, hash|
           hash = hash["data"]
