@@ -14,14 +14,14 @@ module OmniAuth
 
       option :client_options, {
         site: "https://open.tiktokapis.com/v2/",
-        authorize_url: "https://open.tiktokapis.com/v2/platform/oauth/connect",
+        authorize_url: "https://www.tiktok.com/v2/auth/authorize/",
         token_url: "https://open.tiktokapis.com/v2/oauth/token",
         auth_scheme: :basic_auth,
         extract_access_token: proc do |client, hash|
           hash = hash["data"]
           token = hash.delete("access_token") || hash.delete(:access_token)
           token && ::OAuth2::AccessToken.new(client, token, hash)
-        end,
+        end
       }
 
       option :authorize_options, %i[scope display auth_type]
@@ -61,11 +61,11 @@ module OmniAuth
 
       def build_access_token
         verifier = request.params["code"]
-        client.auth_code.get_token(verifier, { client_secret: client.secret }.merge(token_params.to_hash(:symbolize_keys => true)), deep_symbolize(options.auth_token_params))
+        client.auth_code.get_token(verifier, {client_secret: client.secret}.merge(token_params.to_hash(symbolize_keys: true)), deep_symbolize(options.auth_token_params))
       end
 
       def authorize_params
-        super.tap do |params|
+        params = super.tap do |params|
           params[:scope] ||= DEFAULT_SCOPE
           params[:response_type] = "code"
           params.delete(:client_id)
