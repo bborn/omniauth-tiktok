@@ -27,7 +27,11 @@ module OmniAuth
       uid { access_token.params["open_id"] }
 
       info do
-        prune!("username" => raw_info["username"])
+        prune!(
+          "username" => raw_info["display_name"],
+          "name" => raw_info["display_name"],
+          "image" => raw_info["avatar_url"],
+        )
       end
 
       extra do
@@ -49,7 +53,7 @@ module OmniAuth
 
       def raw_info
         @raw_info ||= access_token
-          .get("#{USER_INFO_URL}?fields=username")
+          .get("#{USER_INFO_URL}?fields=open_id,display_name,bio_description,profile_deep_link,avatar_url")
           .parsed&.dig("data", "user") || {}
       end
 
