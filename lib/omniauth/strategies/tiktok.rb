@@ -19,7 +19,7 @@ module OmniAuth
         extract_access_token: proc do |client, hash|
           ::OAuth2::AccessToken.from_hash(client, hash)
         end,
-        auth_scheme: :request_body,
+        auth_scheme: :private_key_jwt,
       }
 
       option :authorize_options, %i[scope display auth_type]
@@ -77,6 +77,7 @@ module OmniAuth
           params.delete("client_id")
           params[:client_key] = options.client_id
           params[:redirect_uri] = callback_url
+          params[:client_secret] = options.client_secret
         end
       end
 
